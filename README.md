@@ -1,0 +1,2 @@
+# kaggle-shopee
+kaggleのshopeeコンペのレポジトリ
