@@ -4,34 +4,41 @@ kaggleのshopeeコンペのレポジトリ
 ![shopee_image](images/shopee_image.png) 
 
 <br>
+
 # 概要
 - 同じ商品を見極める
 - 与えられるデータは商品のタイトル(売った人が出した説明文的な)と商品の画像
 
 <br>
+
 # 指標
 - 一つの商品ごとにその商品と同じ商品だと予測される他の商品を出力する
 - 一つの商品ごとにF1scoreを計算してそれを平均する
 - f1scoreは以下で表される量でrecallとprecisionのバランスをとっている. 
 
-$$precision = \frac{TP}{TP + FP}$$
-$$recall = \frac{TP}{TP + FN}$$
-$$f1score = \frac{2}{\frac{1}{recall} + \frac{1}{precision}}$$
+```
+precision = TP/(TP + FP)
+recall = TP/(TP + FN)
+f1score = 2/(1/precision + 1/recall)
+```
 
 - f1scoreは閾値の設定も大事らしい(byKaggle本)
 
 <br>
+
 # 目標
 - pytorchにもっと慣れる. 
 - 2回目の画像コンペなので銅メダル
 - googlecolabを有効活用する. 
 
 <br>
+
 # Notebook
 [1. EDA](https://www.kaggle.com/ruchi798/shopee-eda-rapids-preprocessing) 
 - edaのnotebook, 画像とかpandasの部分は自分でもできたが, NLPのとこはどんなことをすれば良いのかわからないので参考にする. 
 
 <br>
+
 # Log 
 
 ***20200324*** 
