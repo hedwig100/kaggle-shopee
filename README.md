@@ -47,6 +47,10 @@ f1score = 2/(1/precision + 1/recall)
 - arcfaceという損失を用いたもの
 - まずは普通にclass分類としてやってみてから, これをやってみる. 
 
+[3. CV](https://www.kaggle.com/tmhrkt/shopee-cv-splitting-way)
+- CVをlabel_groupとimagehashを用いて分けている. imagehashやlabel_groupが同じものは同じfold内に存在しないように分けている. 
+- image_phashにも気をつけないといけなかった. 
+
 <br>
 
 # Log 
@@ -75,5 +79,26 @@ f1score = 2/(1/precision + 1/recall)
     - nb02でとりあえずGroupKFoldした. 
 - [このdiscussion](https://www.kaggle.com/c/shopee-product-matching/discussion/225543)を読んでいる限りだと, traindataと同じlabelを持っているとは考えられない? 
     - 普通にクラス分類としてtrainingしてから, softmaxをかける前の出力を用いてcosを求めるというのもありらしい. 
-- nb04 
+- nb03 
     - 普通のclass分類モデルを作り始めた. 
+- transformer -> bert 
+- 教師ありconstrastive learning
+
+**20200329** 
+- pytorchわかんないのでとりあえず, arcfaceでのtrainingをすることにした. 
+- nb04 
+    - とりあえず写経している.
+    - 距離学習 [link](https://qiita.com/yu4u/items/078054dfb5592cbb80cc)
+    - なんでarcfaceのとこでxを正規化してないの? 
+    - と思ったらしてた. 
+    - AMPはAutocast Mixed Precisionの略で計算の速度を早くする手法? 
+    - デバッグしてとりあえず学習できた. 
+    - 明日f1scoreの閾値最適化の部分と, submitcodeを書く. 
+- [discussion](https://www.kaggle.com/c/shopee-product-matching/discussion/228537) 
+    - 明日みよう
+    - いろいろなこれまでの手法が見れる. 
+- CVの切り方を変える. 
+    - image_phashも考慮してGroupKFoldする. 
+- OCR
+    - 画像の中の文字をOCRで読み取って利用するという手もあるらしい
+
