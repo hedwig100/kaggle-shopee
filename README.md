@@ -51,6 +51,10 @@ f1score = 2/(1/precision + 1/recall)
 - CVをlabel_groupとimagehashを用いて分けている. imagehashやlabel_groupが同じものは同じfold内に存在しないように分けている. 
 - image_phashにも気をつけないといけなかった. 
 
+[4. unsupervised](https://www.kaggle.com/cdeotte/part-2-rapids-tfidfvectorizer-cv-0-700) 
+- textをtfidfでベクトル化して, KNNする
+- いろんな言語が混じっているから, tfidfの方がBERTとかいうものよりも良いのかも? 
+
 <br>
 
 # Log 
@@ -110,4 +114,37 @@ f1score = 2/(1/precision + 1/recall)
 - colab
     - nb04をcolabでも学習できるように整備中
     - pytorchのメモリの管理ができない
+
+
+**20200331**
+- nb06
+    - nb04の方法だと9時間で終わらないのでvalidationの頻度を減らして実行した
+    - CV = 0.7384となった. -> LB 0.543
+    - thresholdが0.6だと小さすぎるっぽい. ので0.8にしてみた. -> LB 0.658
+    - LBに対してthresholdを最適化しないといけない...,PublicLBに対してoverfittingしちゃう...
+    - 昨日のやり方だtrainlossを出力していなかったので, lossを出力するようにして, 再実行した. 
+    - おそらくだけど, めちゃくちゃtraindataに過学習しているのでheavyaugmentationが効きそう? -> nb07
+    - これは...
+    ![overfitting](images/overfitting.png) 
+    - 実はもっと小さいモデルeffcientnetB0とかの方がいい説がある. 
+    - どんな画像に対して間違っているか確認する
+- nb05
+    - submit
+    - 普通にsubmitするとメモリが足りないらしく, データを分けてcosin similarityを計算するようにした
+- colabnb06
+    - colabで実行できるようにした
+- nb08 
+    - どんな画像に対して間違っているか確認する
+    ![mistak21](images/mistake1.png) 
+    ![mistake2](images/mistake2.png) 
+
+- textにも手を出したい
+    - tfidf
+    - bert
+    - bertなら翻訳しないといけない? 
+
+- [過去コンペのデータ](https://www.kaggle.com/terterter333/shopee-product-detection), 画像のみがあるらしい
+    - 10GBくらい
+    - クラスと画像があってこれで分類モデルをつくってから最後にこのコンペのデータでfinetuningする. 
+    - データの被りが無いかどうかがきになる.
 
