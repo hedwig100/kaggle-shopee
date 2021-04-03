@@ -152,6 +152,7 @@ f1score = 2/(1/precision + 1/recall)
 **20200401**
 - nb05 
     - thresholdを0.75,0.85versionもやってみた. 
+
 |th|lb|
 |:--:|:--:|
 |0.65|0.546|
@@ -159,6 +160,7 @@ f1score = 2/(1/precision + 1/recall)
 |0.75|0.646|
 |0.80|0.658|
 |0.85|0.658|
+
     - cvはth = 0.65のときに最大で0.7384だった. 
 - nb07
     - めっちゃheavyなaugmentationしたら, 全然学習していなかった. 
@@ -178,6 +180,7 @@ f1score = 2/(1/precision + 1/recall)
 - nb09 
     - effnet_b3のtrainingでもlossの下がり方から同じくらい過学習している気がする. 
     - **よく考えてみるとcos(\theta + m)とした後にlossを計算していてそれはなんか違くないかという感じになった.**
+    - ↑これそうでもない気がしてきた. よくわかんない. 
     - cv = 0.715くらい(densenet121と同じエポック数で比べると少し良いcv)
     - weight_decayをするべき
     - weight_decay=1e-6でそれ以外の条件を全く変えないとcv = 0.7108だった. 
@@ -186,19 +189,23 @@ f1score = 2/(1/precision + 1/recall)
     - colabで回す
 - nb10
     - nb09のeffnetの提出をした. (weight_decayなし)
+
 |th|lb|
 |:--:|:--:|
 |0.70|0.540|
 |0.80|0.634|
+
     - もしかしてcvとlbの相関が取れていそう? 
     - もうすこし考える必要あり
     - 以下はweight_decay=1e-6(cv = 0.7108)ver
     - やっぱり?相関取れてそう
+
 |th|lb|
 |:--:|:--:|
 |0.70|0.539|
 |0.80|0.630|
 |0.85|0.645|
+
 - nb11
     - tfidfをする
     - 特に頑張ることがない
@@ -211,3 +218,39 @@ f1score = 2/(1/precision + 1/recall)
     - bert 
     - channel_sizeを小さくする. 
     - 前のデータでpretrainする. 
+
+**20200402**
+- nb06 
+    - densenet121でweight_decay=1e-4,AdamWで回したが, weight_decayなしの時より, val_f1scoreが減少した. (なし0.7384 -> あり0.7354)
+    - weight_decayはSGDの方が効くらしい
+    - やっぱりこのcvの切り方はめちゃくちゃ良さそう. 
+
+|th|lb|
+|:--:|:--:|
+|0.70|0.610|
+|0.80|0.658|
+|0.90|0.647| 
+
+-nb11
+    - tfidfをした
+    - th = 0.70で cv = 0.6139(ただtfidfをつくってcosine similarityを計算しただけなのでcvではないけど) 
+    - todo
+        - thを変える.
+        - tfidfをnnに入れる
+
+- nb13
+    - label_smoothingつきcrossentropyを実装していたら, pytorchわかんないのでめちゃくちゃ時間かかった. 
+    - colabが動いてくれない. 
+
+- nb14 
+    - textのembeddingとimageのembeddingをどうやってensembleするか考える
+    - それぞれsimilarityを計算して
+        - 足す?
+        - 掛ける? 
+        - max 
+        - min 
+    - それともちかいlabelを撮ってきてから
+        - and 
+        - or 
+
+
