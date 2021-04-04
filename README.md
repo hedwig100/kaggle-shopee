@@ -152,6 +152,7 @@ f1score = 2/(1/precision + 1/recall)
 **20200401**
 - nb05 
     - thresholdを0.75,0.85versionもやってみた. 
+    - cvはth = 0.65のときに最大で0.7384だった. 
 
 |th|lb|
 |:--:|:--:|
@@ -161,7 +162,6 @@ f1score = 2/(1/precision + 1/recall)
 |0.80|0.658|
 |0.85|0.658|
 
-    - cvはth = 0.65のときに最大で0.7384だった. 
 - nb07
     - めっちゃheavyなaugmentationしたら, 全然学習していなかった. 
     - まともなスコアが出ていないのでもうちょっと緩める
@@ -189,16 +189,16 @@ f1score = 2/(1/precision + 1/recall)
     - colabで回す
 - nb10
     - nb09のeffnetの提出をした. (weight_decayなし)
+    - もしかしてcvとlbの相関が取れていそう? 
+    - もうすこし考える必要あり
+    - 下の表ははweight_decay=1e-6(cv = 0.7108)ver
+    - やっぱり?相関取れてそう
 
 |th|lb|
 |:--:|:--:|
 |0.70|0.540|
 |0.80|0.634|
 
-    - もしかしてcvとlbの相関が取れていそう? 
-    - もうすこし考える必要あり
-    - 以下はweight_decay=1e-6(cv = 0.7108)ver
-    - やっぱり?相関取れてそう
 
 |th|lb|
 |:--:|:--:|
@@ -231,6 +231,7 @@ f1score = 2/(1/precision + 1/recall)
 |0.80|0.658|
 |0.90|0.647| 
 
+
 -nb11
     - tfidfをした
     - th = 0.70で cv = 0.6139(ただtfidfをつくってcosine similarityを計算しただけなのでcvではないけど) 
@@ -252,5 +253,44 @@ f1score = 2/(1/precision + 1/recall)
     - それともちかいlabelを撮ってきてから
         - and 
         - or 
+
+**20200404**
+- nb13
+    - label_smoothing=0.05のeffcientnetb3だとepoch=28,でcv = 0.75853だった. label_smoothingはかなり効いてるとおもう. 
+
+|th|lb|
+|:--:|:--:|
+|0.80|0.650|
+|0.85|0.660| 
+
+- nb14
+    - textのただtfidfしたやつと, effcientnetb3でcvを出したら, cv = 0.8118くらい
+    - textの方はlabel_groupでgroup_kfoldしたのでこのCVがよいCvかどうかは不明. 
+    - text_th = 0.70,image_th = 0.70
+    - text_th = 0.80にすると, cv = 0.7941
+
+- nb15
+    - textとうえのeffb3で合わせてsubmitした. 
+    - とりあえずCPUにしてしまった. 
+    - 全く同じものをGPUでだした. 
+    - GPUは15分くらい. 
+    - text_th = 0.70だとlb = 0.571だったので少し調整すべき. 
+    - text_th = 0.80だとlb = 0.621だった.
+    - よく考えるとtestsizeの方がでかいからthももっと大きくすべきだなと持った. 
+    - 正規化しているわけではないからcosでもないし, 
+    - submit時はexit()して時間を節約した.  
+
+- nb16
+    - nfnetを動かそうとしてみたが, あまりうまくいかなさそう. 
+    - lossが発散しそう
+    - というかもっと他にやるべき優先順位の高いことがある気がする. 
+
+- todo
+    - ranzcrで使われてた手法をためす. 
+    - bert
+    - channel_sizeを小さくする
+    - 前のコンペのデータは使っていいか怪しいらしい. 
+
+
 
 
