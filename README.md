@@ -55,6 +55,10 @@ f1score = 2/(1/precision + 1/recall)
 - textをtfidfでベクトル化して, KNNする
 - いろんな言語が混じっているから, tfidfの方がBERTとかいうものよりも良いのかも? 
 
+[5. word2vec](https://www.kaggle.com/coder247/similarity-using-word2vec-text)
+- wordをベクトルにembeddingsする方法
+- simpleで使い方がわかりやすかった. 
+
 <br>
 
 # Log 
@@ -307,6 +311,50 @@ f1score = 2/(1/precision + 1/recall)
     - replaceがうまくいかない... 
 
 - 過去コンペのデータは使えないらしい.
+
+**20200406**
+- nb06 
+    - label_smoothingありだとcv = 0.7346817となった. 
+    - なしより下がった
+
+- nb15
+    - いろいろミスがあったが, effnetのbestcvのモデルで以下のスコア
+    - image単体モデルでのlb最高のsubmit th = 0.85で固定. 
+    - image_cv = 0.7585
+    - image_text_cv = 0.81180
+    - (1fold分)
+    - nb14(vesion8参照) 
+
+|text_th|lb|
+|:--:|:--:|
+|0.70|0.707|
+|0.80|0.703|
+|0.90|0.687| 
+
+    - densenetのbestcvのモデルでのスコア
+    - image単体モデルでlb最高のsubmit th = 0.80で固定. 
+    - image_cv = 0.7332888
+    - image_text_cv = 0.800089
+    - (1fold分) 
+    - nb14(version11参照) 
+
+|text_th|lb|
+|:--:|:--:|
+|0.70|0.714|
+|0.80|0.707| 
+
+    - あまりcv安定してない? 
+    - textがunsupervised(tfidfしただけ)なのでそれと合わせると安定しなくなるのかも? 
+
+- nb17
+    - word2vecを理解する(must)
+    - 理解してから実装をみる. 
+    - [word2vec(Qiita)](https://qiita.com/Hironsan/items/11b388575a058dc8a46a)
+    - word2vecは単語を入力として周辺にある単語が存在する確率を予測するモデルを作り, その重みを使うことで単語をベクトルにする. 
+    - 訓練時の入力としては単語をonehot表現で表したもの. 
+    - targetは周りにある単語とする.(これはwindowsizeにより変化する) 
+    - 2層で隠れ葬の活性化関数に高等関数を用いているので, 結局近い単語のベクトルの内積を大きくするみたいな方向に訓練をする無用にしている.
+    - 明日学習済みモデルとかをみる. 
 
 
 
