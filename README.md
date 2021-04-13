@@ -457,6 +457,15 @@ f1score = 2/(1/precision + 1/recall)
 
 - distilationを試してみたい. 
 
+**20200413**
+- nb24
+    - [cassava conpetition](https://speakerdeck.com/sansandsoc/diary-against-the-noisy-label)に載ってたnoisy labelに対処するSymmetric Lossを試してみたら, cv = 0.762..で改善した. 
+    - effnetb4も試してみる. 
+
+- 今日気づいたんだけど, 実は0.466はなにかのバグでpredが作られておらず, submission.csvがそのまま提出されているときに起こるバグなのかもしれない. 
+- 途中でエラーになってもsubmission.csvがそのまま提出される仕様になっていたっぽい. 
+- 必要メモリが大きすぎてmemory errorを起こした場合とか. 
+
 
 
 
