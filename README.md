@@ -63,6 +63,11 @@ f1score = 2/(1/precision + 1/recall)
 - tensorflowでbertの実装をしている. 
 - やりたい. 
 
+[7. sBert](https://www.kaggle.com/tanulsingh077/metric-learning-pipeline-only-text-sbert)
+- sentence bertを使っている. 
+- 多言語bert 
+- pytorch 
+
 <br>
 
 # Log 
@@ -465,6 +470,41 @@ f1score = 2/(1/precision + 1/recall)
 - 今日気づいたんだけど, 実は0.466はなにかのバグでpredが作られておらず, submission.csvがそのまま提出されているときに起こるバグなのかもしれない. 
 - 途中でエラーになってもsubmission.csvがそのまま提出される仕様になっていたっぽい. 
 - 必要メモリが大きすぎてmemory errorを起こした場合とか. 
+
+**20200414**
+- [このdiscussion](https://www.kaggle.com/c/shopee-product-matching/discussion/228794)が有用だった. 
+    - distlibert
+    - effnetb0b1b2みたいに小さめのモデルの方がいいらしい. 
+
+- nb21
+    - bertに再挑戦していた. 
+    - max_len=128にするのと, 3epochごとにthresholdを最適化した. 
+    - bertだとインドネシア語を翻訳とかした方がよい? 
+
+**20200417**
+- nb13
+    - effcientnetb2を動かしていたがb2の方が良かった. 
+    - これよく考えてみるとエポック数変えちゃったから単純に比較できないじゃん...
+    - cv = 0.7743... 
+    - lb = 0.708
+    - tfidfこみでのcvは0.819607...
+    - epoch数は重要なのか? 
+
+- nb21
+    - bertが全然うまくいっていなかった. 
+    - 翻訳とかが必要だと思う.
+    - discussionで紹介されていたインドネシア英語tranlaterを使ってみた。
+    - とりあえず, 上の翻訳をする. 
+    - あと多言語対応bertとか? 
+    - それか[このnotebook](https://www.kaggle.com/tanulsingh077/metric-learning-pipeline-only-text-sbert)で紹介されているsbertとか? 
+
+- アイデア
+    - submit中にpseudo_labelingして, それを下にちょっとトレーニングするみたいなことをする
+    - 時間がキツそう. 
+    - pseudo_labelingするためにそもそも同じグループに属するものは同じにした方がよくねってなったので、dfsをして連結成分を取り出すことにした. -> nb26 
+
+
+
 
 
 
