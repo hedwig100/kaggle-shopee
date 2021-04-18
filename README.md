@@ -68,6 +68,10 @@ f1score = 2/(1/precision + 1/recall)
 - 多言語bert 
 - pytorch 
 
+[8. siamese net](https://www.kaggle.com/hedwig100/shopee-siamese-resnet-50-with-triplet-loss-on-tpu/edit)
+- siamsese netはよくわからないが自分の理解だと, labelを用いずにtrainingしているので, labelのノイズの影響を受けない. 
+- その意味で結構いいトレーニング方法かもしれない. 
+
 <br>
 
 # Log 
@@ -502,6 +506,43 @@ f1score = 2/(1/precision + 1/recall)
     - submit中にpseudo_labelingして, それを下にちょっとトレーニングするみたいなことをする
     - 時間がキツそう. 
     - pseudo_labelingするためにそもそも同じグループに属するものは同じにした方がよくねってなったので、dfsをして連結成分を取り出すことにした. -> nb26 
+
+**20200418**
+- アイデア
+    - sbert
+    - data cleansing 
+    - nlpパートでstemmerとかもうちょっと工夫できるところがある
+    - image -> nfnet,effnetv2
+    - [noisy student](https://upura.hatenablog.com/entry/2020/02/18/180500), pseudolabeling的なことをする. 
+    - BN層のweightを学習前半で固定する. 
+
+- nb26
+    - dfsした
+    - この場合はthredholsを少し高めにとる方がcvが良かったので, lbもそれを参考にする. 
+
+- nb11
+    - nlpパートをする. 
+    - インドネシア語の翻訳
+    - stemmer
+    - stopwordの除去
+    - 絵文字の除去
+    - してtfidfしてみる. 
+    - 少し翻訳すると cv = 0.6330 -> cv = 0.631 となった. 
+    - 邪魔そうなwordを除去すると, cv = 0.63316307656となった. 
+    - もっとじゃまそうなものを削除すると cv = 0.64053...となった. -> 閾値調整でもっと上がるかも? 
+    - 閾値を調整したら cv = 0.6684204..までいった.
+    - そういえば上の翻訳すると少し悪くなるのはthの調整をしていないからかも? (sizeが小さくなるのでもっとthを小さくすべきということになる)
+    - stopword除去+翻訳で cv = 0.6701くらいになった. 
+    - stemmerは除去+stemmerで cv = 0.6511となった. 
+    - wordの長さが3以下のものを除去するようにしたらもっとよくなった, cv = 0.6727...
+
+- nb19
+    - 上の処理をしてからtfidfをしたものをアンサンブルすると0.8397...まで上がった. 
+    - 想像よりtextのthは小さくて良い? 
+
+
+
+
 
 
 
